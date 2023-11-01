@@ -8,5 +8,33 @@
     ".yamllint": "yaml",
     "LICENSE": "text"
   },
-  "ansible.python.interpreterPath": "/home/qzmorgan/.pyenv/versions/3.11.5/bin/python"
+  "ansible.python.interpreterPath": "/home/qzmorgan/.pyenv/versions/3.11.5/bin/python",
+
+  "cSpell.diagnosticLevel": "Warning",
+  "cSpell.enabledLanguageIds": [
+    "git-commit",
+    "json",
+    "jsonc",
+    "markdown",
+    "plaintext",
+    "text",
+    "yaml",
+    "yml"
+  ],
+  "cSpell.enableFiletypes": [
+    "shellscript",
+  ],
+  "cSpell.words": [
+    "firewall",
+    "firewalld",
+    "posix",
+    "lineinfile",
+    "seport",
+    "proto",
+    "setype",
+    "semanage",
+    "policycoreutils",
+    "noqa",
+    "Simard",
+  ]
 }

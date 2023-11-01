@@ -3,6 +3,6 @@
 
 - name: Restart sshd
   become: true
-  ansibli.builtin.service:
+  ansible.builtin.service:
     name: sshd
     state: restarted
