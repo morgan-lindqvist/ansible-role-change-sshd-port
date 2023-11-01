@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "molecule.yml": "ansible",
+    "prepare.yml": "ansible",
+    "converge.yml": "ansible",
+    "main.yml": "ansible",
+    ".ansible-lint": "ansible",
+    ".yamllint": "yaml",
+    "LICENSE": "text"
+  },
+  "ansible.python.interpreterPath": "/home/qzmorgan/.pyenv/versions/3.11.5/bin/python"
+}

@@ -31,7 +31,7 @@
     connect_timeout: "5"
     timeout: "10"
   delegate_to: "localhost"
-  ignore_errors: "yes"
+  ignore_errors: true
   register: change_sshd_port_configured_ssh
 
 # If {{ ansible_port }} is reachable, we don't need to do anything special
@@ -52,7 +52,7 @@
     connect_timeout: "5"
     timeout: "10"
   delegate_to: "localhost"
-  ignore_errors: "yes"
+  ignore_errors: true
   register: change_sshd_port_default_ssh
   when: change_sshd_port_configured_ssh is defined and
         change_sshd_port_configured_ssh.state is undefined
@@ -72,7 +72,7 @@
     msg: "The SSH port is neither 22 or {{ ansible_port }}."
   when: ssh_port_set is undefined
 
-- name: change the ssh port
+- name: Change the ssh port
   ansible.builtin.import_tasks: change-port.yml
   when: ansible_port == '22'
 

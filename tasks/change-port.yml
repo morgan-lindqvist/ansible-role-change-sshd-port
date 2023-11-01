@@ -21,15 +21,15 @@
 - name: Confirm host connection works
   ansible.builtin.ping:
 
-- name: populate service facts
+- name: Populate service facts
   ansible.builtin.service_facts:
 
 - name: Set the firewall to allow the new SSH port
-  become: yes
+  become: true
   ansible.posix.firewalld:
     port: "{{ change_sshd_port_configured_port }}/tcp"
     zone: public
-    permanent: yes
+    permanent: true
     state: enabled
   notify: "restart firewalld"
   vars:
@@ -39,21 +39,21 @@
     - ansible_facts.services['firewalld.service']['status'] == 'enabled'
 
 - name: Setup alternate SSH port
-  become: yes
+  become: true
   ansible.builtin.lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "^Port"
     line: "Port {{ change_sshd_port_configured_port }}"
   notify: "restart sshd"
 
-- name: collect only selected facts
+- name: Collect only selected facts
   ansible.builtin.setup:
     filter:
       - 'ansible_distribution'
       - 'ansible_distribution_major_version'
 
-- name: setup selinux for alternate ssh port (<=7)
-  become: yes
+- name: Setup selinux for alternate ssh port (<=7)
+  become: true
   community.general.seport:
     ports: "{{ change_sshd_port_configured_port }}"
     proto: "tcp"
@@ -62,21 +62,21 @@
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version <= '7'
 
 # Needed to run semanage to set the port for selinux.
-- name: install policycoreutils
-  become: yes
+- name: Install policy core utils
+  become: true
   ansible.builtin.dnf:
     name: policycoreutils
-    state: latest
+    state: latest  # noqa ansible-lint(package-latest)
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version > '7'
 
-- name: setup selinux for alternate ssh port (8+) - add
-  become: yes
+- name: Setup selinux for alternate ssh port (8+) - add
+  become: true
   ansible.builtin.shell: semanage port -a -t ssh_port_t -p tcp {{ change_sshd_port_configured_port }}
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version > '7'
   notify: "restart sshd"
 
 - name: setup selinux for alternate ssh port (8+) - modify
-  become: yes
+  become: true
   ansible.builtin.shell: semanage port -m -t ssh_port_t -p tcp {{ change_sshd_port_configured_port }}
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version > '7'
   notify: "restart sshd"
